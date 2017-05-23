@@ -5,6 +5,10 @@ namespace Gentor\Mautic;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class MauticServiceProvider
+ * @package Gentor\Mautic
+ */
 class MauticServiceProvider extends ServiceProvider
 {
 

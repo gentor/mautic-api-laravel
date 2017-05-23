@@ -10,9 +10,6 @@ use Mautic\Exception\ContextNotFoundException;
  * Class MauticService
  *
  * @package Gentor\Mautic
- *
- * @method \Mautic\Api\Contacts contacts()
- * @method \Mautic\Api\Companies companies()
  */
 class MauticService
 {
@@ -46,11 +43,20 @@ class MauticService
         $this->baseUrl = $config['baseUrl'];
     }
 
+    /**
+     * @param $apiContext
+     * @param $args
+     * @return mixed
+     * @throws ContextNotFoundException
+     */
     public function __call($apiContext, $args)
     {
         $apiContext = ucfirst($apiContext);
 
-        $class = 'Mautic\\Api\\' . $apiContext;
+        $class = 'Gentor\\Mautic\\Api\\' . $apiContext;
+        if (!class_exists($class)) {
+            $class = 'Mautic\\Api\\' . $apiContext;
+        }
 
         if (!class_exists($class)) {
             throw new ContextNotFoundException("A context of '$apiContext' was not found.");

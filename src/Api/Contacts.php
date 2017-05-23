@@ -1,36 +1,41 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: evgen
- * Date: 23.5.2017 г.
- * Time: 2:18
- */
 
 namespace Gentor\Mautic\Api;
 
+use Mautic;
 
-use Mautic\Api\Api;
-use Mautic\Auth\ApiAuth;
-use Mautic\Api\Contacts as ApiContacts;
-
-class Contacts extends ApiContacts
+/**
+ * Class Contacts
+ * @package Gentor\Mautic\Api
+ */
+class Contacts extends \Mautic\Api\Contacts
 {
-    protected $baseUrl;
-
-    protected $api;
-
-    public function __construct(ApiAuth $auth, $baseUrl)
+    /**
+     * @param array $data
+     * @return null|object
+     */
+    public function createWithCompanies(array $data)
     {
-        $this->baseUrl = $baseUrl;
-        $this->api = (new \Mautic\MauticApi())->newApi('contacts', $auth, $baseUrl);
-    }
-
-    public function __call($method, array $args)
-    {
-        if (!method_exists($this->api, $method)) {
-            throw new IntercomException("Mautic method {$method} not found in api context contacts");
+        $companies = [];
+        if (isset($data['companies'])) {
+            $companies = $data['companies'];
+            unset($data['companies']);
         }
 
-        return call_user_func_array([$this->api, $method], $args);
+        $response = $this->create($data);
+        if (!isset($response['contact'])) {
+            return null;
+        }
+
+        $user = (object)$response['contact'];
+        foreach ($companies as $company) {
+            $response = Mautic::companies()->create($company);
+            if (isset($response['company'])) {
+                $userCompany = (object)$response['company'];
+                Mautic::companies()->addContact($userCompany->id, $user->id);
+            }
+        }
+
+        return $user;
     }
 }
