@@ -1,0 +1,30 @@
+{
+    "name": "gentor/mautic-api-laravel",
+    "description": "Wrapper on the Mautic API for Laravel 4/5.x",
+    "keywords": [
+        "laravel",
+        "mautic",
+        "api",
+		"automation",
+        "email",
+        "marketing"		
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Evgeni Nurkov",
+            "email": "evgeni.nurkov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">= 5.6",
+        "illuminate/support": "4.2.*|5.*",
+        "mautic/api-library": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gentor\\Mautic\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
