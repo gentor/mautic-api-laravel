@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Mautic\Api\Emails emails()
  * @method static \Mautic\Api\Files files()
  * @method static \Mautic\Api\Forms forms()
+ * @method static mixed formSend($formId, array $data)
  * @method static \Mautic\Api\Messages messages()
  * @method static \Mautic\Api\Notes notes()
  * @method static \Mautic\Api\Notifications notifications()

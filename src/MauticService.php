@@ -24,11 +24,6 @@ class MauticService
     protected $baseUrl;
 
     /**
-     * @var Contacts
-     */
-    public $contacts;
-
-    /**
      * MauticService constructor.
      *
      * @param array $config
@@ -63,5 +58,27 @@ class MauticService
         }
 
         return new $class($this->auth, $this->baseUrl);
+    }
+
+    /**
+     * @param $formId
+     * @param array $data
+     * @return mixed
+     */
+    public function formSend($formId, array $data)
+    {
+        $url = $this->baseUrl . '/form/submit?formId=' . $formId;
+        $data['formId'] = $formId;
+        $post = http_build_query(['mauticform' => $data]);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        return $response;
     }
 }
