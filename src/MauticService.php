@@ -3,6 +3,7 @@
 namespace Gentor\Mautic;
 
 
+use Gentor\Mautic\Api\Form;
 use Mautic\Auth\ApiAuth;
 use Mautic\Exception\ContextNotFoundException;
 
@@ -62,23 +63,10 @@ class MauticService
 
     /**
      * @param $formId
-     * @param array $data
-     * @return mixed
+     * @return \Gentor\Mautic\Api\Form
      */
-    public function formSend($formId, array $data)
+    public function form($formId)
     {
-        $url = $this->baseUrl . '/form/submit?formId=' . $formId;
-        $data['formId'] = $formId;
-        $post = http_build_query(['mauticform' => $data]);
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        return $response;
+        return new Form($formId, $this->baseUrl);
     }
 }
