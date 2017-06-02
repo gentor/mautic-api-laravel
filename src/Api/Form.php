@@ -151,6 +151,20 @@ class Form
     {
         $request = ['header'];
 
+        if (isset($data['ipAddress'])) {
+            $contactIp = $data['ipAddress'];
+        } else {
+            $contactIp = $this->getIpFromServer();
+        }
+
+        if (!empty($contactIp)) {
+            $request['header'][] = "X-Forwarded-For: $contactIp";
+        }
+
+        if ($sessionId = $this->cookie->getSessionId()) {
+            $request['header'][] = "Cookie: mautic_session_id=$sessionId";
+        }
+
         $data['formId'] = $this->id;
 
         // return has to be part of the form data array so Mautic would accept the submission
@@ -163,14 +177,6 @@ class Form
 
         if ($contactId = $this->cookie->getContactId()) {
             $request['data']['mtc_id'] = $contactId;
-        }
-
-        if ($contactIp = $this->getIpFromServer()) {
-            $request['header'][] = "X-Forwarded-For: $contactIp";
-        }
-
-        if ($sessionId = $this->cookie->getSessionId()) {
-            $request['header'][] = "Cookie: mautic_session_id=$sessionId";
         }
 
         if (isset($_SERVER['HTTP_REFERER'])) {
