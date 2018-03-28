@@ -26,5 +26,15 @@
             "Gentor\\Mautic\\": "src/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gentor\\Mautic\\MauticServiceProvider"
+            ],
+            "aliases": {
+                "Mautic": "Gentor\\Mautic\\Facades\\Mautic"
+            }
+        }
+    },
     "minimum-stability": "dev"
 }

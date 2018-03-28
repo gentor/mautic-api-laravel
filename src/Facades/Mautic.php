@@ -5,7 +5,7 @@ namespace Gentor\Mautic\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Gentor\Mautic\MauticService
+ * Class Mautic
  *
  * @method static \Mautic\Api\Assets assets()
  * @method static \Mautic\Api\CampaignEvents campaignEvents()
@@ -35,6 +35,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Mautic\Api\Stages stages()
  * @method static \Mautic\Api\Stats stats()
  * @method static \Mautic\Api\Users users()
+ *
+ * @package Gentor\Mautic\Facades
+ * @see \Gentor\Mautic\MauticService
  */
 class Mautic extends Facade
 {

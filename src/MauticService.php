@@ -3,8 +3,11 @@
 namespace Gentor\Mautic;
 
 
+use Gentor\Mautic\Api\Contacts;
 use Gentor\Mautic\Api\Form;
+use Mautic\Api\Companies;
 use Mautic\Auth\ApiAuth;
+use Mautic\Auth\AuthInterface;
 use Mautic\Exception\ContextNotFoundException;
 
 /**
@@ -15,7 +18,7 @@ use Mautic\Exception\ContextNotFoundException;
 class MauticService
 {
     /**
-     * @var ApiAuth
+     * @var ApiAuth|AuthInterface
      */
     protected $auth;
 
@@ -59,6 +62,22 @@ class MauticService
         }
 
         return new $class($this->auth, $this->baseUrl);
+    }
+
+    /**
+     * @return \Gentor\Mautic\Api\Contacts
+     */
+    public function contacts()
+    {
+        return new Contacts($this->auth, $this->baseUrl);
+    }
+
+    /**
+     * @return \Mautic\Api\Companies
+     */
+    public function companies()
+    {
+        return new Companies($this->auth, $this->baseUrl);
     }
 
     /**
