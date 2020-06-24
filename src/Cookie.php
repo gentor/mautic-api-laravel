@@ -61,6 +61,10 @@ class Cookie
     {
         $this->store[$key] = $value;
 
+        if (headers_sent()) {
+            return false;
+        }
+
         return setcookie($key, $value);
     }
 
