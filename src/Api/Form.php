@@ -44,9 +44,10 @@ class Form
      * Submit the $data array to the Mautic form
      * Returns array containing info about the request, response and cookie
      *
-     * @param  array $data
+     * @param array $data
      *
      * @return array
+     * @throws \Exception
      */
     public function submit(array $data)
     {
@@ -79,6 +80,10 @@ class Form
         $response['content'] = htmlentities(substr($result, $response['info']['header_size']));
         curl_close($ch);
 
+        if (strpos($response['header'], 'Internal Server Error')) {
+            throw new \Exception($response['header']);
+        }
+
         if ($sessionId = $this->getSessionIdFromHeader($response['header'])) {
             $this->cookie->setSessionId($sessionId);
         }
@@ -98,7 +103,7 @@ class Form
     /**
      * Finds the session ID hash in the response header
      *
-     * @param  string $headers
+     * @param string $headers
      *
      * @return string|null
      */
@@ -120,8 +125,8 @@ class Form
     /**
      * Finds the Mautic Contact ID hash in the response header
      *
-     * @param  string $headers
-     * @param  string $sessionId
+     * @param string $headers
+     * @param string $sessionId
      *
      * @return int|null
      */
@@ -143,7 +148,7 @@ class Form
     /**
      * Prepares data for CURL request based on provided form data, $_COOKIE and $_SERVER
      *
-     * @param  array $data
+     * @param array $data
      *
      * @return array
      */
