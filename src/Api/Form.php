@@ -56,6 +56,11 @@ class Form
         $request = $this->prepareRequest($data);
 
         $ch = curl_init($request['url']);
+
+        // timeout in seconds
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $request['query']);
 
